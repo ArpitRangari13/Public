@@ -52,21 +52,48 @@
                 bottom: 20%; /* Adjust this value to control the final position */
             }
         }
+        .message-container {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: none; /* Initially hidden */
+            z-index: 10; /* Ensure it appears above other elements */
+        }
     </style>
 </head>
 <body>
     <img src="https://example.com/sliding-image.png" class="sliding-image"> <!-- Replace with your image URL -->
     
     <div class="taskbar">
-        <button class="btn btn-light">Download Resume</button>
-        <button class="btn btn-light">Contact Me</button>
-        <button class="btn btn-light">View Portfolio</button>
-        <button class="btn btn-light">LinkedIn Profile</button>
+        <a href="path/to/your/resume.pdf" download class="btn btn-light" onclick="showMessage(this)">Download Resume</a>
+        <button class="btn btn-light" onclick="showMessage(this)">Contact Me</button>
+        <button class="btn btn-light" onclick="showMessage(this)">View Portfolio</button>
+        <button class="btn btn-light" onclick="showMessage(this)">LinkedIn Profile</button>
     </div>
+
+    <div id="message" class="message-container"></div> <!-- Message container -->
 
     <!-- Bootstrap JS (optional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showMessage(button) {
+            const messageContainer = document.getElementById('message');
+            messageContainer.innerText = `You clicked ${button.innerText}`; // Set message text
+            const rect = button.getBoundingClientRect(); // Get button position
+            messageContainer.style.left = `${rect.left + window.scrollX}px`; // Position container
+            messageContainer.style.top = `${rect.top + window.scrollY - messageContainer.offsetHeight - 10}px`; // Position above button
+            messageContainer            messageContainer.style.display = 'block'; // Show the container
+
+            // Optional: Hide the message after a few seconds
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 3000); // Hide after 3 seconds
+        }
+    </script>
 </body>
 </html>
